@@ -2,7 +2,9 @@
 Grupo de trabajo Proyecto Integrador TSCDIA 2022
 
 
-Integrantes:
+
+
+* Integrantes:
 - Joaquín Torres
 - Andrea Seminario
 - Andrea Sepúlveda
