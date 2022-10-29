@@ -63,3 +63,8 @@ print(newTable)
 # El procedimiento utilizado para la corrección anterior generó una lista. A esta la convertimos en un numpy.ndarray para estructurar el proyecto.
 InmigBody = np.array(newTable).reshape(len(tableValuesInmig),len(rowHeadersInmig))
 InmigBody[:1]
+
+### Generación del DataFrame
+finalyInmig2019 = pd.DataFrame(InmigBody, columns=rowHeadersInmig)
+
+finalyInmig2019.head(1)
