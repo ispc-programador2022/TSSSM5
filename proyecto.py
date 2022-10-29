@@ -65,6 +65,9 @@ InmigBody = np.array(newTable).reshape(len(tableValuesInmig),len(rowHeadersInmig
 InmigBody[:1]
 
 ### Generación del DataFrame
+
 finalyInmig2019 = pd.DataFrame(InmigBody, columns=rowHeadersInmig)
 
-finalyInmig2019.head(1)
+### Se agrega la sentencia para exportar a CSV
+
+finalyInmig2019.to_csv('finalyInmig2019.csv', encoding='utf-8')
