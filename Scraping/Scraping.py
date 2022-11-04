@@ -85,3 +85,12 @@ print (finalInmig2015)
 ## Agrego la sentencia para generar el csv.
 
 finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
+
+
+### Proceso de scraping para generar el datasets con datos del año 2019
+
+website19 = 'https://datosmacro.expansion.com/demografia/migracion/inmigracion'
+result19 = rqst.get(website19)
+content19 = result19.content
+soup19 = bs(content19, "lxml")
+print (soup19.prettify())
