@@ -399,21 +399,22 @@ finalInmig2010.head(1)
 ## ----------------------------------
 ## Se agregan las sentencias para exportar los .CSV
 
+
 ## Agrego la sentencia para generar el csv 2000
-finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
+##finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2005
-finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
+##finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2010
-finalInmig2010.to_csv('finalInmig2010.csv', encoding='utf-8')
+##finalInmig2010.to_csv('finalInmig2010.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2015
-finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
+##finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2017
-finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
-
+##finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2019
-finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
+##finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
+
