@@ -218,7 +218,7 @@ finalInmig2017 = pd.DataFrame(InmigBody2017, columns=rowHeadersInmig2017)
 finalInmig2017.head(1)
 
 
-## Agrego la sentencia para generar el csv 2019
+## Agrego la sentencia para generar el csv 2017
 finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
 
 
@@ -286,5 +286,73 @@ finalInmig2005 = pd.DataFrame(InmigBody2005, columns=rowHeadersInmig2005)
 finalInmig2005.head(1)
 
 
-## Agrego la sentencia para generar el csv 2019
+## Agrego la sentencia para generar el csv 2005
 finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
+
+
+
+### Proceso de scraping para generar el datasets con datos del año 2000
+
+inmig2000 = rqst.get ('https://datosmacro.expansion.com/demografia/migracion/inmigracion?anio=2000')
+soupInmig2000 = bs(inmig2000.content, "html.parser")
+
+
+### Se seleccionan los datos pertenecientes a los nombres de columnas thead 
+
+tableHead2000 = soupInmig2000.thead
+print(tableHead2000)
+
+# Se realiza un for para seleccionar los tr y los th y generar una nueva lista con unicacmente los nombres. 
+rowHeadersInmig2000 = []
+
+for x in tableHead2000.find_all('tr'):
+  for y in x.find_all('th'):
+    rowHeadersInmig2000.append(y.text)
+rowHeadersInmig2000
+
+### Se seleccionan los datos pertenecientes a los registros con tbody
+
+tableBody2000 = soupInmig2000.tbody
+print(tableBody2000)
+
+# Se realiza un for para seleccionar los tr y los td y generar una nueva lista con unicacmente los registros.
+tableValuesInmig2000 = []
+for x in tableBody2000.find_all('tr')[0:]:
+  td_tags = x.find_all('td')
+  td_val = [y.text for y in td_tags]
+  tableValuesInmig2000.append(td_val)
+tableValuesInmig2000[:5]
+
+
+### Correcciones de datos
+
+# En el paso anterior, se genero una posición vacia ''. Con este procedimiento eliminamos este elemento de cada una de las listas. 
+for i in range(len(tableValuesInmig2000)):
+  tableValuesInmig2000[i].pop(5)
+
+print(tableValuesInmig2000)
+
+#Visualizamos la información en un dataframe. 
+dataInmig2000 = pd.DataFrame(tableValuesInmig2000, columns = rowHeadersInmig2000)
+print(dataInmig2000) 
+
+# Se genera un procedimiento para eliminar los [+] de los nombres de paises.
+newTable2000 = []
+for i in range(len(tableValuesInmig2000)):
+  for h in range(len(rowHeadersInmig2000)):
+    newTable2000.append(tableValuesInmig2000[i][h].replace(' [+]', ''))
+
+print(newTable2000)
+
+# El procedimiento utilizado para la corrección anterior generó una lista. A esta la convertimos en un numpy.ndarray para estructurar el proyecto.
+InmigBody2000 = np.array(newTable2000).reshape(len(tableValuesInmig2000),len(rowHeadersInmig2000))
+InmigBody2000[:1]
+
+
+## GENERACIÓN DEL DATAFRAME
+finalInmig2000 = pd.DataFrame(InmigBody2000, columns=rowHeadersInmig2000)
+finalInmig2000.head(1)
+
+
+## Agrego la sentencia para generar el csv 2000
+finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
