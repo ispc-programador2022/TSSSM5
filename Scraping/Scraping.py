@@ -220,3 +220,71 @@ finalInmig2017.head(1)
 
 ## Agrego la sentencia para generar el csv 2019
 finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
+
+
+
+### Proceso de scraping para generar el datasets con datos del año 2005
+
+inmig2005 = rqst.get ('https://datosmacro.expansion.com/demografia/migracion/inmigracion?anio=2005')
+soupInmig2005 = bs(inmig2005.content, "html.parser")
+
+
+### Se seleccionan los datos pertenecientes a los nombres de columnas thead 
+
+tableHead2005 = soupInmig2005.thead
+print(tableHead2005)
+
+# Se realiza un for para seleccionar los tr y los th y generar una nueva lista con unicacmente los nombres. 
+rowHeadersInmig2005 = []
+
+for x in tableHead2005.find_all('tr'):
+  for y in x.find_all('th'):
+    rowHeadersInmig2005.append(y.text)
+rowHeadersInmig2005
+
+### Se seleccionan los datos pertenecientes a los registros con tbody
+
+tableBody2005 = soupInmig2005.tbody
+print(tableBody2005)
+
+# Se realiza un for para seleccionar los tr y los td y generar una nueva lista con unicacmente los registros.
+tableValuesInmig2005 = []
+for x in tableBody2005.find_all('tr')[0:]:
+  td_tags = x.find_all('td')
+  td_val = [y.text for y in td_tags]
+  tableValuesInmig2005.append(td_val)
+tableValuesInmig2005[:5]
+
+
+### Correcciones de datos
+
+# En el paso anterior, se genero una posición vacia ''. Con este procedimiento eliminamos este elemento de cada una de las listas. 
+for i in range(len(tableValuesInmig2005)):
+  tableValuesInmig2005[i].pop(5)
+
+print(tableValuesInmig2005)
+
+#Visualizamos la información en un dataframe. 
+dataInmig2005 = pd.DataFrame(tableValuesInmig2005, columns = rowHeadersInmig2005)
+print(dataInmig2005) 
+
+# Se genera un procedimiento para eliminar los [+] de los nombres de paises.
+newTable2005 = []
+for i in range(len(tableValuesInmig2005)):
+  for h in range(len(rowHeadersInmig2005)):
+    newTable2005.append(tableValuesInmig2005[i][h].replace(' [+]', ''))
+
+print(newTable2005)
+
+# El procedimiento utilizado para la corrección anterior generó una lista. A esta la convertimos en un numpy.ndarray para estructurar el proyecto.
+InmigBody2005 = np.array(newTable2005).reshape(len(tableValuesInmig2005),len(rowHeadersInmig2005))
+InmigBody2005[:1]
+
+
+## GENERACIÓN DEL DATAFRAME
+finalInmig2005 = pd.DataFrame(InmigBody2005, columns=rowHeadersInmig2005)
+finalInmig2005.head(1)
+
+
+## Agrego la sentencia para generar el csv 2019
+finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
