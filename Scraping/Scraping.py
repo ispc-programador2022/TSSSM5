@@ -6,13 +6,6 @@ import pandas as pd
 import numpy as np
 import lxml.html as html
 
-## Configuro el link de extracción y seteos de la librería BeautifulSoup
-
-website = 'https://datosmacro.expansion.com/demografia/migracion/inmigracion?anio=2015'
-result = rqst.get(website)
-content = result.content
-soup = bs(content, "lxml")
-print (soup.prettify())
 
 ## Configuro la fuente de extracción
 
@@ -82,9 +75,7 @@ InmigBody[:1]
 finalInmig2015 = pd.DataFrame(InmigBody, columns=rowHeadersInmig)
 print (finalInmig2015)
 
-## Agrego la sentencia para generar el csv.
 
-finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
 
 
 ### Proceso de scraping para generar el datasets con datos del año 2019
@@ -148,10 +139,6 @@ InmigBody2019[:1]
 ## GENERACIÓN DEL DATAFRAME
 finalInmig2019 = pd.DataFrame(InmigBody2019, columns=rowHeadersInmig2019)
 finalInmig2019.head(1)
-
-
-## Agrego la sentencia para generar el csv 2019
-finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
 
 
 
@@ -218,11 +205,6 @@ finalInmig2017 = pd.DataFrame(InmigBody2017, columns=rowHeadersInmig2017)
 finalInmig2017.head(1)
 
 
-## Agrego la sentencia para generar el csv 2017
-finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
-
-
-
 ### Proceso de scraping para generar el datasets con datos del año 2005
 
 inmig2005 = rqst.get ('https://datosmacro.expansion.com/demografia/migracion/inmigracion?anio=2005')
@@ -284,11 +266,6 @@ InmigBody2005[:1]
 ## GENERACIÓN DEL DATAFRAME
 finalInmig2005 = pd.DataFrame(InmigBody2005, columns=rowHeadersInmig2005)
 finalInmig2005.head(1)
-
-
-## Agrego la sentencia para generar el csv 2005
-finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
-
 
 
 ### Proceso de scraping para generar el datasets con datos del año 2000
@@ -354,5 +331,89 @@ finalInmig2000 = pd.DataFrame(InmigBody2000, columns=rowHeadersInmig2000)
 finalInmig2000.head(1)
 
 
+
+
+### Proceso de scraping para generar el datasets con datos del año 2010
+
+inmig2010 = rqst.get ('https://datosmacro.expansion.com/demografia/migracion/inmigracion?anio=2010')
+soupInmig2010 = bs(inmig2010.content, "html.parser")
+
+
+### Se seleccionan los datos pertenecientes a los nombres de columnas thead 
+
+tableHead2010 = soupInmig2010.thead
+print(tableHead2010)
+
+# Se realiza un for para seleccionar los tr y los th y generar una nueva lista con unicacmente los nombres. 
+rowHeadersInmig2010 = []
+
+for x in tableHead2010.find_all('tr'):
+  for y in x.find_all('th'):
+    rowHeadersInmig2010.append(y.text)
+rowHeadersInmig2010
+
+### Se seleccionan los datos pertenecientes a los registros con tbody
+
+tableBody2010 = soupInmig2010.tbody
+print(tableBody2010)
+
+# Se realiza un for para seleccionar los tr y los td y generar una nueva lista con unicacmente los registros.
+tableValuesInmig2010 = []
+for x in tableBody2010.find_all('tr')[0:]:
+  td_tags = x.find_all('td')
+  td_val = [y.text for y in td_tags]
+  tableValuesInmig2010.append(td_val)
+tableValuesInmig2010[:5]
+
+
+### Correcciones de datos
+
+# En el paso anterior, se genero una posición vacia ''. Con este procedimiento eliminamos este elemento de cada una de las listas. 
+for i in range(len(tableValuesInmig2010)):
+  tableValuesInmig2010[i].pop(5)
+
+print(tableValuesInmig2010)
+
+#Visualizamos la información en un dataframe. 
+dataInmig2010 = pd.DataFrame(tableValuesInmig2010, columns = rowHeadersInmig2010)
+print(dataInmig2010) 
+
+# Se genera un procedimiento para eliminar los [+] de los nombres de paises.
+newTable2010 = []
+for i in range(len(tableValuesInmig2010)):
+  for h in range(len(rowHeadersInmig2010)):
+    newTable2010.append(tableValuesInmig2010[i][h].replace(' [+]', ''))
+
+print(newTable2010)
+
+# El procedimiento utilizado para la corrección anterior generó una lista. A esta la convertimos en un numpy.ndarray para estructurar el proyecto.
+InmigBody2010 = np.array(newTable2010).reshape(len(tableValuesInmig2010),len(rowHeadersInmig2000))
+InmigBody2010[:1]
+
+
+## GENERACIÓN DEL DATAFRAME
+finalInmig2010 = pd.DataFrame(InmigBody2010, columns=rowHeadersInmig2010)
+finalInmig2010.head(1)
+
+
+## ----------------------------------
+## Se agregan las sentencias para exportar los .CSV
+
 ## Agrego la sentencia para generar el csv 2000
 finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
+
+## Agrego la sentencia para generar el csv 2005
+finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
+
+## Agrego la sentencia para generar el csv 2010
+finalInmig2010.to_csv('finalInmig2010.csv', encoding='utf-8')
+
+## Agrego la sentencia para generar el csv 2015
+finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
+
+## Agrego la sentencia para generar el csv 2017
+finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
+
+
+## Agrego la sentencia para generar el csv 2019
+finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
