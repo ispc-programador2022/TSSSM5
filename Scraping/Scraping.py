@@ -418,3 +418,10 @@ finalInmig2010.head(1)
 ## Agrego la sentencia para generar el csv 2019
 ##finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
 
+## UNIÓN AGRUPADA CON PAISES. UNION HORIZONTAL.
+##csv_2000_to_2019 = pd.concat([finalInmig2000, finalInmig2005, finalInmig2010, finalInmig2015, finalInmig2017, finalInmig2019], axis=1)
+
+
+## UNIÓN VERTICAL, DUPLICANDO PAISES.
+csv_2000_to_2019 = pd.concat([finalInmig2000, finalInmig2005, finalInmig2010, finalInmig2015, finalInmig2017, finalInmig2019])
+csv_2000_to_2019.to_csv('csv_2000_to_2019.csv', encoding='utf-8')
