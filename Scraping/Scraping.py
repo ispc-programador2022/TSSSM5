@@ -395,28 +395,72 @@ InmigBody2010[:1]
 finalInmig2010 = pd.DataFrame(InmigBody2010, columns=rowHeadersInmig2010)
 finalInmig2010.head(1)
 
+## ----------------------------------
+## Se agrega una columna para cada dataframe con el año correspondiente
+
+## 2000
+year2000_list = []
+for i in range(194):
+  year2000_list.append("2000")
+finalInmig2000["year"] = year2000_list
+
+## 2005
+year2005_list = []
+for i in range(194):
+  year2005_list.append("2005")
+finalInmig2005["year"] = year2005_list
+
+## 2010
+year2010_list = []
+for i in range(195):
+  year2010_list.append("2010")
+finalInmig2010["year"] = year2010_list
+
+
+## 2015
+year2015_list = []
+for i in range(195):
+  year2015_list.append("2015")
+finalInmig2015["year"] = year2015_list
+
+## 2017
+year2017_list = []
+for i in range(195):
+  year2017_list.append("2017")
+finalInmig2017["year"] = year2017_list
+
+
+## 2019
+year2019_list = []
+for i in range(195):
+  year2019_list.append("2019")
+finalInmig2019["year"] = year2019_list
+
+
+
+
 
 ## ----------------------------------
 ## Se agregan las sentencias para exportar los .CSV
 
 
 ## Agrego la sentencia para generar el csv 2000
-##finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
+finalInmig2000.to_csv('finalInmig2000.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2005
-##finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
+finalInmig2005.to_csv('finalInmig2005.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2010
-##finalInmig2010.to_csv('finalInmig2010.csv', encoding='utf-8')
+finalInmig2010.to_csv('finalInmig2010.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2015
-##finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
+finalInmig2015.to_csv('finalInmig2015.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2017
-##finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
+finalInmig2017.to_csv('finalInmig2017.csv', encoding='utf-8')
 
 ## Agrego la sentencia para generar el csv 2019
-##finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
+finalInmig2019.to_csv('finalInmig2019.csv', encoding='utf-8')
 
 ## UNIÓN AGRUPADA CON PAISES. UNION HORIZONTAL.
 ##csv_2000_to_2019 = pd.concat([finalInmig2000, finalInmig2005, finalInmig2010, finalInmig2015, finalInmig2017, finalInmig2019], axis=1)
