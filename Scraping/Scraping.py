@@ -466,3 +466,6 @@ finalInmig2019["year"] = year2019_list
 ## UNIÓN VERTICAL, DUPLICANDO PAISES.
 csv_2000_to_2019 = pd.concat([finalInmig2000, finalInmig2005, finalInmig2010, finalInmig2015, finalInmig2017, finalInmig2019])
 #csv_2000_to_2019.to_csv('csv_2000_to_2019.csv', encoding='utf-8')
+
+
+
